@@ -1,64 +1,27 @@
-import React, { useEffect, useState } from 'react';
+import { Link, Outlet } from 'react-router-dom/'
 
 function Home() {
-  const [data, setData] = useState([])
-
-  useEffect(() => {
-    fetch('http://127.0.0.1:5000//api/v1/brasileirao/', {
-      method: 'GET',
-      mode: 'cors'
-    })
-    .then(res => {
-      if(!res.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return res.json()
-    })
-    .then(data => {
-      setData(data.sort((a: any, b: any) => Number(a.ordem) - Number(b.ordem)))
-    })
-    .catch(err => console.error(err))
-  }, [])
-
   return (
-    <main>
-      <h1>Brasileirao</h1>
-
-      <table>
-        <thead>
-          <tr>
-            <td>Clube</td>
-            <td>Classificação</td>
-            <td>Pontos</td>
-            <td>Vitórias</td>
-            <td>Empates</td>
-            <td>Derrotas</td>
-            <td>Gols Pró</td>
-            <td>Gols Contra</td>
-            <td>Saldo de Gols</td>
-            <td>Aproveitamento</td>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((clube: any, index: any) => (
-            <tr key={index}>
-              <td>{clube.nome_popular}</td>
-              <td>{clube.ordem}</td>
-              <td>{clube.pontos}</td>
-              <td>{clube.vitorias}</td>
-              <td>{clube.empates}</td>
-              <td>{clube.derrotas}</td>
-              <td>{clube.gols_pro}</td>
-              <td>{clube.gols_contra}</td>
-              <td>{clube.saldo_gols}</td>
-              <td>{clube.aproveitamento}%</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </main>
-
-  );
+    <>
+      <header>
+        <nav>
+          <ul>
+            <li><Link to='/campeonatos/bundesliga'>Bundesliga</Link></li>
+            <li><Link to='/campeonatos/brasileirao'>Brasileirão - Série A</Link></li>
+            <li><Link to='/campeonatos/brasileirao-serie-b'>Brasileirão - Série B</Link></li>
+            <li><Link to='/campeonatos/la-liga'>La Liga</Link></li>
+            <li><Link to='/campeonatos/league-one'>League One</Link></li>
+            <li><Link to='/campeonatos/premier-league'>Premier League</Link></li>
+            <li><Link to='/campeonatos/serie-a'>Serie A</Link></li>
+            <li><Link to='/campeonatos/saudita'>Saudita</Link></li>
+          </ul>
+        </nav>
+      </header>
+      <main>
+        <Outlet />
+      </main>
+    </>
+  )
 }
 
-export default Home;
+export default Home
