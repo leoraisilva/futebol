@@ -1,21 +1,12 @@
 import { Link, Outlet } from 'react-router-dom/'
+import Nav from './components/nav'
+import '../pages/home.css'
 
 function Home() {
   return (
     <>
       <header>
-        <nav>
-          <ul>
-            <li><Link to='/campeonatos/bundesliga'>Bundesliga</Link></li>
-            <li><Link to='/campeonatos/brasileirao'>Brasileirão - Série A</Link></li>
-            <li><Link to='/campeonatos/brasileirao-serie-b'>Brasileirão - Série B</Link></li>
-            <li><Link to='/campeonatos/la-liga'>La Liga</Link></li>
-            <li><Link to='/campeonatos/league-one'>League One</Link></li>
-            <li><Link to='/campeonatos/premier-league'>Premier League</Link></li>
-            <li><Link to='/campeonatos/serie-a'>Serie A</Link></li>
-            <li><Link to='/campeonatos/saudita'>Saudita</Link></li>
-          </ul>
-        </nav>
+        <Nav Bundesliga={'Bundesliga'} BrasileiraoA={'Brasileirão - Série A'} BrasileiraoB={'Brasileirão - Série B'} LaLiga={'La Liga'} LeagueOne={'League One'} PremierLeague={'Premier League'} SerieA={'Serie A'} Saudita={'Saudita'} />
       </header>
       <main>
         <Outlet />
