@@ -25,3 +25,8 @@ img {
 .body-table td:hover {
     cursor: pointer;
 }
+
+.btn-primary {
+    border: none;
+    background-color: transparent;
+}

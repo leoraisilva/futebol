@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react';
+import axios from "axios";
+import { error } from "console";
 import '../campeonatos/campeonato.css';
+import Modal from '../components/modal';
 
 function BrasileiroA() {
+
+  const [modal, setModal] = useState('')
   const [data, setData] = useState([])
 
   useEffect(() => {
@@ -43,8 +48,11 @@ function BrasileiroA() {
             </thead>
             <tbody className='body-table'>
               {data.map((clube: any, index: any) => (
-                <tr key={index}>
-                  <td><img src={clube.escudo} /> {clube.nome_popular} </td>
+                <tr key={index} onClick={() => setModal(clube.nome_popular)}>
+                  <td><img src={clube.escudo} />
+                  <button type="button" className="btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" >
+                  {clube.nome_popular}
+                  </button></td>
                   <td>{clube.ordem}</td>
                   <td>{clube.pontos}</td>
                   <td>{clube.vitorias}</td>
@@ -58,6 +66,7 @@ function BrasileiroA() {
               ))}
             </tbody>
           </table>
+          <Modal titulo={modal} />
         </div>
       </div>
     </main>

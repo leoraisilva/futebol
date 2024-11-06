@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import '../campeonatos/campeonato.css';
+import ModalBundesliga from '../components/modalBundesliga';
 
 function Alemao() {
+  const [modal, setModal] = useState('')
   const [data, setData] = useState([])
 
   useEffect(() => {
@@ -43,8 +45,11 @@ function Alemao() {
           </thead>
           <tbody className='body-table'>
             {data.map((clube: any, index: any) => (
-              <tr key={index}>
-                <td><img src={clube.escudo} /> {clube.nome_popular} </td>
+              <tr key={index} onClick={() => setModal(clube.nome_popular)}>
+              <td><img src={clube.escudo} />
+                <button type="button" className="btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" >
+                {clube.nome_popular}
+              </button></td>
                 <td>{clube.ordem}</td>
                 <td>{clube.pontos}</td>
                 <td>{clube.vitorias}</td>
@@ -58,6 +63,7 @@ function Alemao() {
             ))}
           </tbody>
         </table>
+        <ModalBundesliga titulo={modal} />
       </div>
     </main>
 
