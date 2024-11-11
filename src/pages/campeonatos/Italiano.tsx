@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import '../campeonatos/campeonato.css';
-import ModalSerieA from '../components/modalSerieA';
+import ModalSerieA from '../components/Modal/modalSerieA';
 
 function Italiano() {
   const [modal, setModal] = useState('')
+  const [index, setIndex] = useState('')
   const [data, setData] = useState([])
 
   useEffect(() => {
@@ -45,7 +46,7 @@ function Italiano() {
           </thead>
           <tbody className='body-table'>
             {data.map((clube: any, index: any) => (
-              <tr key={index} onClick={() => setModal(clube.nome_popular)}>
+              <tr key={index} onClick={() => {setModal(clube.nome_popular); setIndex(index + 1)}}>
               <td><img src={clube.escudo} />
                 <button type="button" className="btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" >
                 {clube.nome_popular}
@@ -63,7 +64,7 @@ function Italiano() {
             ))}
           </tbody>
         </table>
-        <ModalSerieA titulo={modal} />
+        <ModalSerieA titulo={modal} index={index} />
       </div>
     </main>
 

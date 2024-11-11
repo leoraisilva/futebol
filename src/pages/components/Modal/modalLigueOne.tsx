@@ -1,16 +1,18 @@
 import { useEffect, useState } from 'react';
-import '../components/modal.css'
+import '../Modal/modal.css';
+import Estatistica from '../Estatistica/estatisticaLigueone';
 
 interface ModalProps {
   titulo: string;
+  index: string;
 }
 
-function Modal({ titulo }: ModalProps) {
-
+function Modal({ titulo, index }: ModalProps) {
   const [jogos, setJogos] = useState<any[]>([]);
+  const [adversario, setAdversario] = useState('');
 
   useEffect(() => {
-    fetch('http://127.0.0.1:5000/api/v1/jogos/brasileirao/', {
+    fetch('http://127.0.0.1:5000/api/v1/jogos/league-one/', {
       method: 'GET',
       mode: 'cors',
     })
@@ -21,17 +23,27 @@ function Modal({ titulo }: ModalProps) {
         return res.json();
       })
       .then((data) => {
-        setJogos(data); 
+        setJogos(data);
       })
       .catch((err) => console.error(err));
   }, []);
-  
+
   const jogo = jogos.find((item) => 
     item.equipes.mandante.nome_popular === titulo || 
     item.equipes.visitante.nome_popular === titulo
   );
 
-  if (!jogo) return <div>Carregando...</div>; 
+  useEffect(() => {
+    if (jogo) {
+      if (jogo.equipes.mandante.nome_popular === titulo) {
+        setAdversario(jogo.equipes.visitante.nome_popular);
+      } else {
+        setAdversario(jogo.equipes.mandante.nome_popular);
+      }
+    }
+  }, [jogo, titulo]); 
+
+  if (!jogo) return <div>Carregando...</div>;
 
   return (
     <>
@@ -52,9 +64,9 @@ function Modal({ titulo }: ModalProps) {
                   <p>{jogo.equipes.mandante.nome_popular}</p>
                 </div>
                 <div className='content-modal-placar'>
-                <h2>{jogo.placar_oficial_mandante}</h2> 
-                X
-                <h2>{jogo.placar_oficial_visitante}</h2> 
+                  <h2>{jogo.placar_oficial_mandante}</h2> 
+                  X
+                  <h2>{jogo.placar_oficial_visitante}</h2> 
                 </div>
                 <div className='content-modal'>
                   <img src={jogo.equipes.visitante.escudo} alt="Escudo Visitante" />
@@ -62,7 +74,13 @@ function Modal({ titulo }: ModalProps) {
                 </div>
               </div>
             </div>
-
+            <div className='content-modal'>
+            {jogo.jogo_ja_comecou !== true && (
+                <>
+                  <Estatistica index={parseInt(index)} />
+                </>
+              )}
+            </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
             </div>
